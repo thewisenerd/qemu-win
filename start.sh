@@ -56,11 +56,19 @@ args+=(
   '-cpu' 'host'
   '-smp' "$cpus"
   '-m' "$memory"
+
+  # display
   '-vga' 'virtio'
   '-display' 'sdl,gl=on'
+
   '-drive' "file=$image,media=disk"
   '-boot' 'menu=on'
   '-monitor' 'stdio'
+
+  # audio
+  '-audiodev' 'pipewire,id=snd0'
+  '-device' 'ich9-intel-hda'
+  '-device' 'hda-output,audiodev=snd0'
 )
 
 if [[ -n "$stage" ]]; then
