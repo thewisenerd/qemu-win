@@ -7,6 +7,10 @@ running windows VMs with qemu directly.
 - default QEMU networking [ref][qemu-net-ref]
 - assumptions
   - pipewire for audio
+- todo
+  - [ ] TAP networking
+  - [ ] win10
+    - [ ] virtio drivers, multi-stage
 
 [qemu-net-ref]: https://wiki.qemu.org/Documentation/Networking
 
