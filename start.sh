@@ -100,6 +100,14 @@ else
   exit 1;
 fi
 
+# network
+network=$(read_config ".network" "")
+if [[ "$network" == "legacy" ]]; then
+  args+=(
+    '-netdev' 'user,id=lan0'
+    '-device' 'rtl8139,netdev=lan0'
+  )
+fi
 
 if [[ -n "$stage" ]]; then
   isos=$(read_config ".stages[\"$stage\"].isos" "")
