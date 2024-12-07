@@ -54,7 +54,22 @@ args=()
 args+=(
   '-enable-kvm'
   '-machine' "type=$machine"
-  '-cpu' 'host'
+)
+
+# https://blog.wikichoon.com/2014/07/enabling-hyper-v-enlightenments-with-kvm.html
+# https://web.archive.org/web/20131102154932/https://www.linux-kvm.org/wiki/images/0/0a/2012-forum-kvm_hyperv.pdf
+enlightenments=$(read_config ".enlightenments" "false")
+if [[ "$enlightenments" == "true" ]]; then
+  args+=(
+    '-cpu' 'host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time'
+  )
+else
+  args+=(
+    '-cpu' 'host'
+  )
+fi
+
+args+=(
   '-smp' "$cpus"
   '-m' "$memory"
 

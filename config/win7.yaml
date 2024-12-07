@@ -3,6 +3,8 @@ size: "64G"
 cpus: 6
 memory: "16G"
 
+enlightenments: true
+
 current_stage: bootstrap
 stages:
   bootstrap:
