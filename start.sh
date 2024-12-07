@@ -43,6 +43,7 @@ if [[ ! -e "$image" ]]; then
   qemu-img create -f qcow2 "$image" "$size"
 fi
 
+machine=$(read_config ".machine" "q35")
 cpus=$(read_config ".cpus")
 memory=$(read_config ".memory")
 
@@ -52,7 +53,7 @@ errcho "stage: $stage"
 args=()
 args+=(
   '-enable-kvm'
-  '-machine' 'type=q35'
+  '-machine' "type=$machine"
   '-cpu' 'host'
   '-smp' "$cpus"
   '-m' "$memory"
@@ -64,12 +65,26 @@ args+=(
   '-drive' "file=$image,media=disk"
   '-boot' 'menu=on'
   '-monitor' 'stdio'
-
-  # audio
-  '-audiodev' 'pipewire,id=snd0'
-  '-device' 'ich9-intel-hda'
-  '-device' 'hda-output,audiodev=snd0'
 )
+
+# audio
+audio=$(read_config ".audio" "intel-hd")
+if [[ "$audio" == "intel-hd" ]]; then
+  args+=(
+    '-audiodev' 'pipewire,id=snd0'
+    '-device' 'ich9-intel-hda'
+    '-device' 'hda-output,audiodev=snd0'
+  )
+elif [[ "$audio" == "ac97" ]]; then
+  args+=(
+    '-audiodev' 'pipewire,id=snd0'
+    '-device' 'AC97,audiodev=snd0'
+  )
+else
+  errcho "invalid .audio, must be one of intel-hd,ac97"
+  exit 1;
+fi
+
 
 if [[ -n "$stage" ]]; then
   isos=$(read_config ".stages[\"$stage\"].isos" "")
