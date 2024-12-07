@@ -1,0 +1,11 @@
+image: "./img/win7.img"
+size: "64G"
+cpus: 6
+memory: "16G"
+
+current_stage: bootstrap
+stages:
+  bootstrap:
+    isos:
+    - "./iso/en_windows_7_professional_with_sp1_x64_dvd_u_676939.iso" # https://massgrave.dev/windows_7_links
+    - "./iso/virtio-win-0.1.266.iso" # https://github.com/virtio-win/kvm-guest-drivers-windows/wiki/Driver-installation
