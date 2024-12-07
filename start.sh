@@ -3,6 +3,10 @@
 # references:
 # - https://www.youtube.com/watch?v=AAfFewePE7c
 
+# assumptions
+# - pipewire for audio (https://wiki.archlinux.org/title/PipeWire)
+# - bridge 'br0' configured with netctl (https://wiki.archlinux.org/title/Bridge_with_netctl)
+
 set -euo pipefail
 
 function errcho() {
